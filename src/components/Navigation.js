@@ -1,29 +1,58 @@
 import React from 'react'
 import styled from 'styled-components'
 import {style} from '../helpers/helpers'
-import { Link } from "react-router-dom"
+import {Link, useLocation} from "react-router-dom"
 
 
 export default function Navigation() {
+    const items = [
+        {
+            name:"Emily",
+            slug:"/",
+            id: 1,
+        },
+        {
+            name:"Steve",
+            slug:"/Steve",
+            id: 2,
+        },
+        {
+            name:"Ellon",
+            slug:"/Ellon",
+            id: 3,
+        }
+    ]
+    let currentPage = useLocation();
+    console.log(currentPage.pathname);
+    let bgColor = "";
+    if (currentPage.pathname == "/") {
+        bgColor="red";
+    } else if (currentPage.pathname == "/Steve") {
+        bgColor="purple";
+    } else {
+        bgColor="yellow"
+    }
   return (
-    <Nav>
-        <div className='logo'>
-            <h1>devMito.</h1>
-        </div>
-        <div className='navItems'>
-            <ul>
+    <header style={{backgroundColor:bgColor}}>
+        <Nav>
+            <div className='logo'>
                 <Link to="/">
-                    <li>Emily</li>
+                    <h1>devMito.</h1>
                 </Link>
-                <Link to="/Steve">
-                    <li>Steve</li>
-                </Link>
-                <Link to="/Ellon">
-                    <li>Ellon</li>
-                </Link>
-            </ul>
-        </div>
-    </Nav>
+            </div>
+            <div className='navItems'>
+                <ul>
+                    {
+                        items.map((item)=> (
+                        <Link to={item.slug} key={item.id}>
+                            <li>{item.name}</li>
+                        </Link>
+                        ))
+                    }
+                </ul>
+            </div>
+        </Nav>
+    </header>
   )
 }
 
@@ -33,10 +62,15 @@ justify-content : space-between;
 align-items: center;
 padding-left: 40px;
 padding-right: 40px;
-background-color: ${style.backgroundColor};
+/* background-color: ${style.backgroundColor}; */
 font-size: ${style.fontSize};
 color: ${style.color};
 
+
+a {
+    text-decoration: none;
+    color: #fff;
+}
 
 ul {
     display : flex;
@@ -47,4 +81,6 @@ ul {
         padding-right : 10px;
     }
 }
+
 `
+
